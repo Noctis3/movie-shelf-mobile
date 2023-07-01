@@ -1,5 +1,7 @@
-import { useEffect } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { useContext, useEffect } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Text, Button } from 'react-native-paper';
+
 
 import { IPageProps } from '../../types/navigation';
 import api from '../../services/api';
@@ -22,8 +24,8 @@ export default function Home({ navigation }: IPageProps) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Home</Text>
-      <Button title="Sign in" onPress={() => navigation.navigate('SignIn')} />
+      <Text>Home</Text>
+      <Button onPress={() => navigation.navigate('SignIn')}>Sign in</Button>
     </View>
   );
 }
@@ -31,11 +33,7 @@ export default function Home({ navigation }: IPageProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  text: {
-    marginBottom: 8,
   },
 });
