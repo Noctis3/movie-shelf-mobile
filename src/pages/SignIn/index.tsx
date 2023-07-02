@@ -3,13 +3,6 @@ import { StyleSheet, View } from 'react-native';
 import { TextInput, Button, HelperText } from 'react-native-paper';
 
 import { useForm, Controller } from 'react-hook-form';
-import api from '../../services/api';
-import {
-  CREATE_REQUEST_TOKEN,
-  CREATE_SESSION,
-  GET_ACCOUNT_DETAILS,
-  VALIDATE_REQUEST_TOKEN,
-} from '../../types/requests';
 import { AuthContext } from '../../contexts/auth';
 import { IPageProps } from '../../types/navigation';
 
@@ -33,7 +26,7 @@ export default function SignIn({ navigation }: IPageProps) {
     try {
       clearErrors();
       await signIn(data);
-      navigation.navigate('Home');
+      navigation.navigate('HomeSection');
     } catch (error) {
       setError('root', { type: 'manual', message: 'Erro ao autenticar' });
     }
