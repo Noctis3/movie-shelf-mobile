@@ -51,8 +51,8 @@ export default function Routes() {
       <PaperProvider theme={theme}>
         <NavigationContainer theme={theme}>
           <Stack.Navigator>
+            <Stack.Screen name="Login" component={SignIn} />
             <Stack.Screen name="Home" component={Home} />
-            <Stack.Screen name="SignIn" component={SignIn} />
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>
