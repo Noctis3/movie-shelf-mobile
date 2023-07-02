@@ -2,30 +2,21 @@ import { useContext, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text, Button } from 'react-native-paper';
 
-
 import { IPageProps } from '../../types/navigation';
-import api from '../../services/api';
+import { AuthContext } from '../../contexts/auth';
 
 export default function Home({ navigation }: IPageProps) {
+  // get auth context
+  const { user } = useContext(AuthContext);
+
   useEffect(() => {
-    api
-      .post('authentication/token/validate_with_login', {
-        username: 'johnny_appleseed',
-        password: 'test123',
-        request_token: 'loremipsum',
-      })
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error.response.data);
-      });
+    console.log('Home page user' + user)
   }, []);
 
   return (
     <View style={styles.container}>
       <Text>Home</Text>
-      <Button onPress={() => navigation.navigate('SignIn')}>Sign in</Button>
+      {user.username && <Text>{user.username}</Text>}
     </View>
   );
 }
