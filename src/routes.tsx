@@ -17,6 +17,7 @@ import { PreferencesContext } from './contexts/theme';
 
 import Home from './pages/Home';
 import SignIn from './pages/SignIn';
+import { AuthProvider } from './contexts/auth';
 
 export default function Routes() {
   const colorScheme = useColorScheme();
@@ -47,15 +48,17 @@ export default function Routes() {
   );
 
   return (
-    <PreferencesContext.Provider value={preferences}>
-      <PaperProvider theme={theme}>
-        <NavigationContainer theme={theme}>
-          <Stack.Navigator>
-            <Stack.Screen name="Login" component={SignIn} />
-            <Stack.Screen name="Home" component={Home} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </PaperProvider>
-    </PreferencesContext.Provider>
+    <AuthProvider>
+      <PreferencesContext.Provider value={preferences}>
+        <PaperProvider theme={theme}>
+          <NavigationContainer theme={theme}>
+            <Stack.Navigator initialRouteName="Login">
+              <Stack.Screen name="Login" component={SignIn} />
+              <Stack.Screen name="Home" component={Home} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </PaperProvider>
+      </PreferencesContext.Provider>
+    </AuthProvider>
   );
 }
