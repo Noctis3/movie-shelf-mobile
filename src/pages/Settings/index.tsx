@@ -9,14 +9,12 @@ export default function Home({ navigation }: IPageProps) {
   // get auth context
   const { user } = useContext(AuthContext);
 
-  useEffect(() => {
-    console.log('Home page user' + user)
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <View style={styles.container}>
-      <Text>Home</Text>
-      {user.username && <Text>{user.username}</Text>}
+      <Text>Settings</Text>
+      {user.sessionId && <Text>{user.sessionId}</Text>}
     </View>
   );
 }
