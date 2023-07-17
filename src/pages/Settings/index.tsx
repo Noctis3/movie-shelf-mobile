@@ -7,14 +7,18 @@ import { AuthContext } from '../../contexts/auth';
 
 export default function Home({ navigation }: IPageProps) {
   // get auth context
-  const { user } = useContext(AuthContext);
-
-  useEffect(() => {}, []);
+  const { user, signOut } = useContext(AuthContext);
 
   return (
     <View style={styles.container}>
-      <Text>Settings</Text>
-      {user.sessionId && <Text>{user.sessionId}</Text>}
+      <Button
+        mode="contained"
+        onPress={() => {
+          signOut();
+        }}
+      >
+        SignOut
+      </Button>
     </View>
   );
 }

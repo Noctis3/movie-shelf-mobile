@@ -14,6 +14,9 @@ import {
   VALIDATE_REQUEST_TOKEN,
 } from '../types/requests';
 import api from '../services/api';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../types/navigation';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type User = {
   avatar: {
@@ -53,7 +56,8 @@ export const AuthContext = createContext({} as AuthContextData);
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User>({} as User);
-
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const signIn = useCallback(
     async ({ username, password }: SignInCredentials) => {
@@ -71,7 +75,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         });
         console.log('Request token validated');
         console.log('validateResponse ' + validateResponse);
-        
+
         const sessionResponse = await api.post(CREATE_SESSION, {
           request_token: validateResponse.data.request_token,
         });
@@ -84,10 +88,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
         console.log('Account details');
         console.log(accountResponse.data);
 
-        AsyncStorage.setItem('auth.user', JSON.stringify({
-          ...accountResponse.data,
-          sessionId: sessionResponse.data.session_id,
-        }));
+        AsyncStorage.setItem(
+          'auth.user',
+          JSON.stringify({
+            ...accountResponse.data,
+            sessionId: sessionResponse.data.session_id,
+          })
+        );
 
         setUser({
           ...accountResponse.data,
@@ -95,8 +102,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
         });
 
         console.log('User saved on AsyncStorage');
-        console.log(user)
-        console.log(await AsyncStorage.getItem('auth.user'))
+        console.log(user);
+        console.log(await AsyncStorage.getItem('auth.user'));
       } catch (error) {
         return Promise.reject(new Error(error));
       }
@@ -106,6 +113,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   function signOut() {
     AsyncStorage.multiRemove(['auth.sessionId', 'auth.user']);
+    navigation.navigate('SignIn');
   }
 
   const isSignedIn = async () => {
@@ -120,6 +128,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       if (currentUser?.id) {
         setUser(currentUser);
+        navigation.navigate('HomeSection');
+      } else {
+        navigation.navigate('SignIn');
       }
     };
 

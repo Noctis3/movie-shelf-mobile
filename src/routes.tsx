@@ -61,10 +61,10 @@ export default function Routes() {
   );
 
   return (
-    <AuthProvider>
-      <PreferencesContext.Provider value={preferences}>
-        <PaperProvider theme={theme}>
-          <NavigationContainer theme={theme}>
+    <PreferencesContext.Provider value={preferences}>
+      <PaperProvider theme={theme}>
+        <NavigationContainer theme={theme}>
+          <AuthProvider>
             <Stack.Navigator initialRouteName="Login">
               <Stack.Screen name="Login" component={SignIn} />
               <Stack.Screen
@@ -73,9 +73,9 @@ export default function Routes() {
                 options={{ headerShown: false }}
               />
             </Stack.Navigator>
-          </NavigationContainer>
-        </PaperProvider>
-      </PreferencesContext.Provider>
-    </AuthProvider>
+          </AuthProvider>
+        </NavigationContainer>
+      </PaperProvider>
+    </PreferencesContext.Provider>
   );
 }
