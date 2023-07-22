@@ -1,15 +1,29 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, Image as ImageRN } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Image as ImageRN,
+  TouchableOpacity,
+} from 'react-native';
 import { Image } from 'react-native-expo-image-cache';
 import { Text } from 'react-native-paper';
 import tmdbLogo from '../../images/tmdb.png';
 import { genres } from '../../types/movies';
+import { IPageProps, RootStackParamList } from '../../types/navigation';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 export default function MovieCard({ movie }) {
-  useEffect(() => {}, []);
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (
-    <View style={styles.movieWrapper}>
+    <TouchableOpacity
+      onPress={() => {
+        navigation.navigate('Movie', { movieId: movie.id });
+      }}
+      style={styles.movieWrapper}
+    >
       <Image
         uri={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
         // Add blur on preview
@@ -37,7 +51,7 @@ export default function MovieCard({ movie }) {
           {movie.overview}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 

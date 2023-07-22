@@ -20,6 +20,7 @@ import { PreferencesContext } from './contexts/theme';
 import Home from './pages/Home';
 import SignIn from './pages/SignIn';
 import Settings from './pages/Settings';
+import Movie from './pages/Movie';
 import { AuthProvider } from './contexts/auth';
 
 function HomeSection() {
@@ -71,6 +72,11 @@ export default function Routes() {
               <Stack.Screen
                 name="HomeSection"
                 component={HomeSection}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Movie"
+                component={Movie}
                 options={{ headerShown: false }}
               />
             </Stack.Navigator>
