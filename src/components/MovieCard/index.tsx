@@ -1,9 +1,13 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, StyleSheet, Image as ImageRN } from 'react-native';
 import { Image } from 'react-native-expo-image-cache';
 import { Text } from 'react-native-paper';
+import tmdbLogo from '../../images/tmdb.png';
+import { genres } from '../../types/movies';
 
 export default function MovieCard({ movie }) {
+  useEffect(() => {}, []);
+
   return (
     <View style={styles.movieWrapper}>
       <Image
@@ -15,9 +19,23 @@ export default function MovieCard({ movie }) {
         style={styles.img}
       />
       <View style={styles.movieContentWrapper}>
+        <Text style={styles.movieRelease}>
+          {movie.release_date.split('-')[0]}
+        </Text>
         <Text style={styles.movieTitle}>{movie.title}</Text>
-        <Text>{movie.video}</Text>
-        <Text numberOfLines={2}>{movie.overview}</Text>
+        <View style={styles.movieRatingWrapper}>
+          <ImageRN source={tmdbLogo} style={styles.tmdbLogo} />
+          <Text style={styles.movieText}>{movie.vote_average * 10} / 100</Text>
+        </View>
+        <Text style={styles.movieText}>
+          {movie.genre_ids.map((genreId) => {
+            const genre = genres.find((genre) => genre.id === genreId);
+            return genre ? `${genre.name}, ` : '';
+          })}
+        </Text>
+        <Text style={styles.movieText} numberOfLines={3}>
+          {movie.overview}
+        </Text>
       </View>
     </View>
   );
@@ -32,16 +50,28 @@ const styles = StyleSheet.create({
   },
   movieContentWrapper: {
     margin: 10,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: 'column',
     flexShrink: 1,
   },
+  movieRatingWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  tmdbLogo: {
+    marginRight: 5,
+  },
+  movieRelease: {
+    color: '#999',
+  },
   movieTitle: {
-    fontSize: 18,
+    fontSize: 16,
+  },
+  movieText: {
+    marginVertical: 5,
   },
   img: {
     width: 150,
-    height: 200,
+    height: 220,
     borderRadius: 15,
   },
 });
