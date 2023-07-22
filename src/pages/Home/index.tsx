@@ -1,28 +1,74 @@
 import React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { View, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
-import { Text, Button } from 'react-native-paper';
-import { Image } from 'react-native-expo-image-cache';
+import { Text } from 'react-native-paper';
+import { Searchbar } from 'react-native-paper';
 
 import { IPageProps } from '../../types/navigation';
 import { AuthContext } from '../../contexts/auth';
 import api from '../../services/api';
-import { GET_MOVIE_LIST } from '../../types/requests';
+import { GET_MOVIE_LIST, SEARCH_MOVIES } from '../../types/requests';
 import MovieCard from '../../components/MovieCard';
+import { useForm, Controller } from 'react-hook-form';
+
+type FormData = {
+  search: string;
+};
 
 export default function Home({ navigation }: IPageProps) {
   // get auth context
   const { user } = useContext(AuthContext);
+  const [originalMovieList, setOriginalMovieList] = useState([]);
   const [movieList, setMovieList] = useState([]);
+
+  const { control, formState, handleSubmit, clearErrors, setError } =
+    useForm<FormData>({
+      mode: 'onChange',
+    });
 
   useEffect(() => {
     api.get(`${GET_MOVIE_LIST}`).then((response) => {
+      setOriginalMovieList(response.data.results);
       setMovieList(response.data.results);
     });
   }, []);
 
+  const submit = async (data: { search: string }) => {
+    try {
+      clearErrors();
+      await api
+        .get(SEARCH_MOVIES(data.search), {
+          params: {
+            query: data.search,
+          },
+        })
+        .then((response) => {
+          setMovieList(response.data.results);
+        });
+    } catch (error) {
+      setError('root', { type: 'manual', message: 'Erro ao autenticar' });
+    }
+  };
+
   return (
     <ScrollView style={styles.scrollWrapper}>
+      <Controller
+        control={control}
+        name="search"
+        defaultValue=""
+        render={({ field, fieldState }) => (
+          <>
+            <Searchbar
+              placeholder="Buscar por filmes"
+              value={field.value}
+              onChangeText={field.onChange}
+              onSubmitEditing={handleSubmit(submit)}
+              onClearIconPress={() => setMovieList(originalMovieList)}
+              style={styles.searchWrapper}
+            />
+          </>
+        )}
+      />
       <SafeAreaView style={styles.container}>
         {movieList.map((movie, i) => {
           return <MovieCard key={i} movie={movie} />;
@@ -33,6 +79,9 @@ export default function Home({ navigation }: IPageProps) {
 }
 
 const styles = StyleSheet.create({
+  searchWrapper: {
+    marginVertical: 20,
+  },
   scrollWrapper: {
     flex: 1,
     padding: 20,

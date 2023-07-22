@@ -4,3 +4,6 @@ export const VALIDATE_REQUEST_TOKEN =
 export const CREATE_SESSION = 'authentication/session/new';
 export const GET_ACCOUNT_DETAILS = 'account';
 export const GET_MOVIE_LIST = 'discover/movie?language=pt-BR';
+export function SEARCH_MOVIES(query: string) {
+  return `search/movie?query=${query}&language=pt-BR`;
+}
