@@ -63,30 +63,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
     async ({ username, password }: SignInCredentials) => {
       try {
         const response = await api.get(CREATE_REQUEST_TOKEN);
-        console.log('Request token created');
-        console.log(response.data);
-
-        console.log('Validating request token');
 
         const validateResponse = await api.post(VALIDATE_REQUEST_TOKEN, {
           request_token: response.data.request_token,
           username: username,
           password: password,
         });
-        console.log('Request token validated');
-        console.log('validateResponse ' + validateResponse);
 
         const sessionResponse = await api.post(CREATE_SESSION, {
           request_token: validateResponse.data.request_token,
         });
-        console.log('Session created');
-        console.log(sessionResponse.data);
 
         const accountResponse = await api.get(
           `${GET_ACCOUNT_DETAILS}?session_id=${sessionResponse.data.session_id}`
         );
-        console.log('Account details');
-        console.log(accountResponse.data);
 
         AsyncStorage.setItem(
           'auth.user',
@@ -100,10 +90,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
           ...accountResponse.data,
           sessionId: sessionResponse.data.session_id,
         });
-
-        console.log('User saved on AsyncStorage');
-        console.log(user);
-        console.log(await AsyncStorage.getItem('auth.user'));
       } catch (error) {
         return Promise.reject(new Error(error));
       }

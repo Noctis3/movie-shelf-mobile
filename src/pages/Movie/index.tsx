@@ -55,8 +55,6 @@ export default function Movie({ route }) {
     fetchMovie();
   }, []);
 
-  console.log(movie);
-
   return (
     <View>
       <View>
