@@ -7,3 +7,18 @@ export const GET_MOVIE_LIST = 'discover/movie?language=pt-BR';
 export function SEARCH_MOVIES(query: string) {
   return `search/movie?query=${query}&language=pt-BR`;
 }
+export function getUserPicture(path: string | null) {
+  return `https://image.tmdb.org/t/p/w400${path}`;
+}
+export function searchMovies(query: string) {
+  return `search/movie?query=${query}&language=pt-BR`;
+}
+export function getMovieDetails(id: string) {
+  return `movie/${id}?language=pt-BR`;
+}
+export function getProviders(id: string) {
+  return `movie/${id}/watch/providers?language=pt-BR`;
+}
+export function getCredits(id: string) {
+  return `movie/${id}/credits?language=pt-BR`;
+}
