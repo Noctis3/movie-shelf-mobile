@@ -1,13 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { View, Image as ImageRN, ScrollView } from 'react-native';
+import { AuthContext } from '../../contexts/auth';
+import api from '../../services/api';
 
-import { View } from 'react-native';
-import { Button } from 'react-native-paper';
+import { Button, IconButton } from 'react-native-paper';
 import { Image } from 'react-native-expo-image-cache';
 import { Text } from 'react-native-paper';
-import api from '../../services/api';
+
 import {
   CastData,
   CrewData,
+  MovieAccountStatesData,
   MovieDataById,
   MovieProviderData,
 } from '../../types/movies';
@@ -15,17 +18,22 @@ import {
   getMovieDetails,
   getProviders,
   getCredits,
+  getMovieAccountStates,
+  postFavoriteMovie,
 } from '../../types/requests';
-
+import tmdbLogo from '../../images/tmdb.png';
 import { styles } from './styles';
 
 export default function Movie({ route }) {
   const { movieId } = route.params;
+  const { user } = useContext(AuthContext);
 
   const [movie, setMovie] = useState<MovieDataById>({} as MovieDataById);
   const [movieProviders, setMovieProviders] = useState<MovieProviderData[]>([]);
   const [cast, setCast] = useState<CastData[]>([]);
   const [director, setDirector] = useState<CrewData[]>([]);
+  const [movieAccountStates, setMovieAccountStates] =
+    useState<MovieAccountStatesData>();
   const genreNames = movie.genres?.map((genre) => genre.name).join(', ');
 
   useEffect(() => {
@@ -47,6 +55,17 @@ export default function Movie({ route }) {
         } else {
           setMovieProviders([]);
         }
+
+        const responseMovieAccountStates = await api.get(
+          getMovieAccountStates(movieId),
+          {
+            params: {
+              session_id: user.sessionId,
+            },
+          }
+        );
+
+        setMovieAccountStates(responseMovieAccountStates.data);
       } catch (error) {
         console.error('Erro ao buscar filmes:', error);
       }
@@ -54,6 +73,34 @@ export default function Movie({ route }) {
 
     fetchMovie();
   }, []);
+
+  async function handleFavorite() {
+    try {
+      const response = await api.post(
+        postFavoriteMovie(user.id),
+        {
+          media_type: 'movie',
+          media_id: movieId,
+          favorite: !movieAccountStates?.favorite,
+        },
+        {
+          params: {
+            session_id: user.sessionId,
+          },
+        }
+      );
+
+      console.log(response.data);
+      if (response.data) {
+        setMovieAccountStates({
+          ...movieAccountStates,
+          favorite: !movieAccountStates?.favorite,
+        });
+      }
+    } catch (error) {
+      console.error('Erro ao favoritar filme:', error);
+    }
+  }
 
   return (
     <View>
@@ -75,12 +122,16 @@ export default function Movie({ route }) {
             </View>
             <View style={styles.movieContentWrapper}>
               <View style={styles.gradeWrapper}>
-                <Text>Lorem</Text>
+                <ImageRN source={tmdbLogo} />
                 <Text>{(movie.vote_average * 10).toFixed(0)} / 100</Text>
               </View>
-              <Button mode="contained" style={styles.favoriteButton}>
-                Favoritar
-              </Button>
+              <IconButton
+                icon={movieAccountStates?.favorite ? 'heart' : 'heart-outline'}
+                mode="contained"
+                size={32}
+                style={styles.favoriteButton}
+                onPress={handleFavorite}
+              />
             </View>
             <View>
               <Text style={styles.subtitle}>Sinopse</Text>
@@ -96,28 +147,26 @@ export default function Movie({ route }) {
                 <Text>US$ {movie.budget?.toLocaleString()}</Text>
               </View>
             </View>
-            <View>
-              <Text style={styles.subtitle}>Disponível em:</Text>
-              <View>
-                {movieProviders.length !== 0 ? (
-                  movieProviders.map((provider, i) => {
-                    return (
-                      <Image
-                        key={i}
-                        uri={`https://image.tmdb.org/t/p/original/${provider}`}
-                        preview={{
-                          uri: `https://image.tmdb.org/t/p/original/${provider}`,
-                        }}
-                        style={styles.providerLogo}
-                      />
-                    );
-                  })
-                ) : (
-                  <Text>Não disponível</Text>
-                )}
-              </View>
-            </View>
+            <Text style={styles.subtitle}>Disponível em:</Text>
           </View>
+          <ScrollView horizontal style={styles.providersWrapper}>
+            {movieProviders.length !== 0 ? (
+              movieProviders.map((provider, i) => {
+                return (
+                  <Image
+                    key={i}
+                    uri={`https://image.tmdb.org/t/p/original/${provider.logo_path}`}
+                    preview={{
+                      uri: `https://image.tmdb.org/t/p/original/${provider.logo_path}`,
+                    }}
+                    style={styles.providerLogo}
+                  />
+                );
+              })
+            ) : (
+              <Text>Não disponível</Text>
+            )}
+          </ScrollView>
         </View>
       </View>
     </View>

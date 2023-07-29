@@ -27,8 +27,13 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 4,
   },
+  providersWrapper: {
+    paddingLeft: 16,
+  },
   providerLogo: {
-    height: 24,
-    width: 24,
+    height: 64,
+    width: 64,
+    borderRadius: 18,
+    marginRight: 8,
   },
 });
