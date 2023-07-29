@@ -22,3 +22,9 @@ export function getProviders(id: string) {
 export function getCredits(id: string) {
   return `movie/${id}/credits?language=pt-BR`;
 }
+export function getMovieAccountStates(id: string) {
+  return `movie/${id}/account_states`;
+}
+export function postFavoriteMovie(accountId: number) {
+  return `account/${accountId}/favorite`;
+}
