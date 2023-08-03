@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import {
   View,
   StyleSheet,
@@ -39,7 +38,7 @@ export default function MovieCard({ movie }) {
         <Text style={styles.movieTitle}>{movie.title}</Text>
         <View style={styles.movieRatingWrapper}>
           <ImageRN source={tmdbLogo} style={styles.tmdbLogo} />
-          <Text style={styles.movieText}>{movie.vote_average * 10} / 100</Text>
+          <Text style={styles.movieText}>{movie.vote_average.toFixed(1) * 10} / 100</Text>
         </View>
         <Text style={styles.movieText}>
           {movie.genre_ids.map((genreId) => {

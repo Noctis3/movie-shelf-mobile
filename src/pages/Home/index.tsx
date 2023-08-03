@@ -1,15 +1,15 @@
-import React from 'react';
 import { useContext, useEffect, useState } from 'react';
-import { View, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
-import { Text } from 'react-native-paper';
+import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { Searchbar } from 'react-native-paper';
+import { useForm, Controller } from 'react-hook-form';
 
-import { IPageProps } from '../../types/navigation';
 import { AuthContext } from '../../contexts/auth';
+import { IPageProps } from '../../types/navigation';
+
 import api from '../../services/api';
 import { GET_MOVIE_LIST, SEARCH_MOVIES } from '../../types/requests';
+
 import MovieCard from '../../components/MovieCard';
-import { useForm, Controller } from 'react-hook-form';
 
 type FormData = {
   search: string;
