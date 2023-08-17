@@ -23,15 +23,39 @@ import Settings from './pages/Settings';
 import Movie from './pages/Movie';
 import FavoriteMovies from './pages/FavoriteMovies';
 import { AuthProvider } from './contexts/auth';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import IonIcons from 'react-native-vector-icons/Ionicons';
 
 function HomeSection() {
   const Tab = createBottomTabNavigator();
 
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+
+          if (route.name === 'Home') {
+            iconName = focused ? 'home-variant' : 'home-variant-outline';
+          } else if (route.name === 'Favoritos') {
+            iconName = focused ? 'heart' : 'heart-outline';
+          } else if (route.name === 'Configurações') {
+            if (focused) {
+              return <IonIcons name="settings" size={24} color={color} />;
+            }
+            return <IonIcons name="settings-outline" size={24} color={color} />;
+          }
+
+          // You can return any component that you like here!
+          return (
+            <MaterialCommunityIcons name={iconName} size={24} color={color} />
+          );
+        },
+      })}
+    >
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Favorites" component={FavoriteMovies} />
-      <Tab.Screen name="Settings" component={Settings} />
+      <Tab.Screen name="Favoritos" component={FavoriteMovies} />
+      <Tab.Screen name="Configurações" component={Settings} />
     </Tab.Navigator>
   );
 }

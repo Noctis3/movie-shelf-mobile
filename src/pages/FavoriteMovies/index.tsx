@@ -30,9 +30,15 @@ export default function FavoriteMovies({ navigation }: IPageProps) {
   const [loading, setLoading] = useState(false);
 
   useFocusEffect(() => {
-    api.get(getFavoriteMovies(user.id)).then((response) => {
-      setMovieList(response.data.results);
-    });
+    api
+      .get(getFavoriteMovies(user.id), {
+        params: {
+          session_id: user.sessionId,
+        },
+      })
+      .then((response) => {
+        setMovieList(response.data.results);
+      });
   });
 
   async function getRecommendedMovies() {
