@@ -80,7 +80,7 @@ export default function Home({ navigation }: IPageProps) {
 
 const styles = StyleSheet.create({
   searchWrapper: {
-    marginVertical: 20,
+    marginBottom: 20,
   },
   scrollWrapper: {
     flex: 1,

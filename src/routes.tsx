@@ -15,11 +15,13 @@ import {
 } from 'react-native-paper';
 import merge from 'deepmerge';
 import { PreferencesContext } from './contexts/theme';
+import { StatusBar } from 'react-native';
 
 import Home from './pages/Home';
 import SignIn from './pages/SignIn';
 import Settings from './pages/Settings';
 import Movie from './pages/Movie';
+import FavoriteMovies from './pages/FavoriteMovies';
 import { AuthProvider } from './contexts/auth';
 
 function HomeSection() {
@@ -28,6 +30,7 @@ function HomeSection() {
   return (
     <Tab.Navigator>
       <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Favorites" component={FavoriteMovies} />
       <Tab.Screen name="Settings" component={Settings} />
     </Tab.Navigator>
   );
@@ -63,11 +66,15 @@ export default function Routes() {
 
   return (
     <PreferencesContext.Provider value={preferences}>
+      <StatusBar
+        barStyle={theme.dark ? 'light-content' : 'dark-content'}
+        backgroundColor={theme.colors.background}
+      />
       <PaperProvider theme={theme}>
         <NavigationContainer theme={theme}>
           <AuthProvider>
-            <Stack.Navigator initialRouteName="Login">
-              <Stack.Screen name="Login" component={SignIn} />
+            <Stack.Navigator initialRouteName="SignIn">
+              <Stack.Screen name="SignIn" component={SignIn} />
               <Stack.Screen
                 name="HomeSection"
                 component={HomeSection}
