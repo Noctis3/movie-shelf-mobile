@@ -31,3 +31,4 @@ export function postFavoriteMovie(accountId: number) {
 export function getFavoriteMovies(accountId: number) {
   return `account/${accountId}/favorite/movies?language=pt-BR`;
 }
+export const GET_MOVIE_RECOMMENDATIONS = '/recommended-movies';
