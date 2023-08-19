@@ -16,6 +16,7 @@ import {
 import merge from 'deepmerge';
 import { PreferencesContext } from './contexts/theme';
 import { StatusBar } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import Home from './pages/Home';
 import SignIn from './pages/SignIn';
@@ -28,6 +29,7 @@ import IonIcons from 'react-native-vector-icons/Ionicons';
 
 function HomeSection() {
   const Tab = createBottomTabNavigator();
+  const { t, i18n } = useTranslation();
 
   return (
     <Tab.Navigator
@@ -35,11 +37,14 @@ function HomeSection() {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === 'Home') {
+          if (route.name === 'Início' || route.name === 'Home') {
             iconName = focused ? 'home-variant' : 'home-variant-outline';
-          } else if (route.name === 'Favoritos') {
+          } else if (route.name === 'Favoritos' || route.name === 'Favorites') {
             iconName = focused ? 'heart' : 'heart-outline';
-          } else if (route.name === 'Configurações') {
+          } else if (
+            route.name === 'Configurações' ||
+            route.name === 'Settings'
+          ) {
             if (focused) {
               return <IonIcons name="settings" size={24} color={color} />;
             }
@@ -53,9 +58,12 @@ function HomeSection() {
         },
       })}
     >
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Favoritos" component={FavoriteMovies} />
-      <Tab.Screen name="Configurações" component={Settings} />
+      <Tab.Screen name={t('tabNavigation.home')} component={Home} />
+      <Tab.Screen
+        name={t('tabNavigation.favorites')}
+        component={FavoriteMovies}
+      />
+      <Tab.Screen name={t('tabNavigation.settings')} component={Settings} />
     </Tab.Navigator>
   );
 }
