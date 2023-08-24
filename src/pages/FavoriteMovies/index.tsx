@@ -19,7 +19,8 @@ import {
 import { Image } from 'react-native-expo-image-cache';
 import { Button, IconButton, Text } from 'react-native-paper';
 import openai from '../../services/openai';
-import { set } from 'react-hook-form';
+
+import { useTranslation } from 'react-i18next';
 
 export default function FavoriteMovies({ navigation }: IPageProps) {
   // get auth context
@@ -28,6 +29,8 @@ export default function FavoriteMovies({ navigation }: IPageProps) {
   const [movieList, setMovieList] = useState([]);
   const [recommendedMovieList, setRecommendedMovieList] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const { t } = useTranslation();
 
   useFocusEffect(() => {
     api
@@ -69,7 +72,7 @@ export default function FavoriteMovies({ navigation }: IPageProps) {
 
   return (
     <ScrollView style={styles.scrollWrapper}>
-      <Text style={styles.text}>Filmes favoritos</Text>
+      <Text style={styles.text}>{t('favoriteMovies')}</Text>
       <ScrollView horizontal style={styles.moviesWrapper}>
         {movieList.map((movie, i) => {
           return (
@@ -93,7 +96,7 @@ export default function FavoriteMovies({ navigation }: IPageProps) {
         })}
       </ScrollView>
       <View style={styles.recommendedTitleWrapper}>
-        <Text style={styles.recommendedText}>Recomendações</Text>
+        <Text style={styles.recommendedText}>{t('recommendations')}</Text>
         <Button
           icon={'auto-fix'}
           mode="contained"
@@ -101,7 +104,7 @@ export default function FavoriteMovies({ navigation }: IPageProps) {
           onPress={getRecommendedMovies}
           loading={loading}
         >
-          Gerar
+          {t('generate')}
         </Button>
       </View>
       <View style={styles.recommendedMoviesWrapper}>

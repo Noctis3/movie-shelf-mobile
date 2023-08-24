@@ -11,8 +11,17 @@ const messages = {
           label: 'Idioma',
           pt: 'Português',
           en: 'English',
-        }
-      }
+        },
+      },
+      searchBar: 'Pesquisar filmes',
+      synopsis: 'Sinopse',
+      director: 'Diretor',
+      budget: 'Orçamento',
+      availableIn: 'Disponível em',
+      notAvailable: 'Não disponível',
+      favoriteMovies: 'Filmes favoritos',
+      recommendations: 'Recomendações',
+      generate: 'Gerar',
     },
   },
 };

@@ -1,10 +1,10 @@
-import { i18n } from '../translate/i18n';
+  import { i18n } from '../translate/i18n';
 
-const languageMap: { [key: string]: string } = {
-  pt: 'pt-BR',
-  es: 'es',
-  en: 'en-US',
-};
+  const languageMap: { [key: string]: string } = {
+    pt: 'pt-BR',
+    es: 'es',
+    en: 'en-US',
+  };
 
 export const CREATE_REQUEST_TOKEN = 'authentication/token/new';
 export const VALIDATE_REQUEST_TOKEN =

@@ -11,8 +11,17 @@ const messages = {
           label: 'Language',
           pt: 'Português',
           en: 'English',
-        }
-      }
+        },
+      },
+      searchBar: 'Search movies',
+      synopsis: 'Synopsis',
+      director: 'Director',
+      budget: 'Budget',
+      availableIn: 'Available in',
+      notAvailable: 'Not available',
+      favoriteMovies: 'Favorite movies',
+      recommendations: 'Recommendations',
+      generate: 'Generate',
     },
   },
 };
