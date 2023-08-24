@@ -7,7 +7,7 @@ import { AuthContext } from '../../contexts/auth';
 import { IPageProps } from '../../types/navigation';
 
 import api from '../../services/api';
-import { GET_MOVIE_LIST, SEARCH_MOVIES } from '../../types/requests';
+import { discoverMovies, SEARCH_MOVIES } from '../../types/requests';
 
 import MovieCard from '../../components/MovieCard';
 
@@ -27,7 +27,7 @@ export default function Home({ navigation }: IPageProps) {
     });
 
   useEffect(() => {
-    api.get(`${GET_MOVIE_LIST}`).then((response) => {
+    api.get(`${discoverMovies()}`).then((response) => {
       setOriginalMovieList(response.data.results);
       setMovieList(response.data.results);
     });
