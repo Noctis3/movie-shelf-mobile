@@ -44,6 +44,7 @@ export default function SignIn({ navigation }: IPageProps) {
         render={({ field, fieldState }) => (
           <>
             <TextInput
+              testID="username"
               value={field.value}
               label="Nome de usuário"
               style={styles.input}
@@ -68,6 +69,7 @@ export default function SignIn({ navigation }: IPageProps) {
         render={({ field, fieldState }) => (
           <>
             <TextInput
+              testID="password"
               value={field.value}
               label="Senha"
               style={styles.input}
@@ -84,6 +86,7 @@ export default function SignIn({ navigation }: IPageProps) {
       />
       <View>
         <Button
+          testID="submit"
           mode="contained"
           onPress={handleSubmit(submit)}
           style={styles.button}
