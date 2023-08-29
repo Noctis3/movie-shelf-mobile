@@ -19,7 +19,7 @@ export default function SignIn({ navigation }: IPageProps) {
       mode: 'onChange',
     });
   const { signIn } = useContext(AuthContext);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const ERROR_MESSAGES = {
     REQUIRED: t('signIn.required'),
@@ -80,6 +80,7 @@ export default function SignIn({ navigation }: IPageProps) {
               secureTextEntry
               textContentType="password"
               onChangeText={field.onChange}
+              autoCapitalize='none'
             />
             {fieldState.error && (
               <HelperText type="error">{fieldState.error.message}</HelperText>

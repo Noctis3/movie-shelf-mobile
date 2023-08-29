@@ -30,7 +30,7 @@ export default function FavoriteMovies({ navigation }: IPageProps) {
   const [recommendedMovieList, setRecommendedMovieList] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   useFocusEffect(() => {
     api
@@ -51,6 +51,7 @@ export default function FavoriteMovies({ navigation }: IPageProps) {
 
     const movieListResponse = await openai.post(GET_MOVIE_RECOMMENDATIONS, {
       movies: JSON.stringify(favoriteMoviesTitles),
+      language: i18n.language
     });
 
     const recommendedMoviesNames = movieListResponse.data.map((movie) => {
