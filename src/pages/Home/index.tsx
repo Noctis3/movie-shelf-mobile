@@ -63,6 +63,7 @@ export default function Home({ navigation }: IPageProps) {
         render={({ field, fieldState }) => (
           <>
             <Searchbar
+              testID="searchBar"
               placeholder={`${t('searchBar')}`}
               value={field.value}
               onChangeText={field.onChange}

@@ -1,6 +1,13 @@
 const messages = {
   en: {
     translations: {
+      signIn: {
+        username: 'Username',
+        password: 'Password',
+        signIn: 'Sign in',
+        error: 'Invalid username or password',
+        required: 'Required field',
+      },
       tabNavigation: {
         home: 'Home',
         favorites: 'Favorites',
@@ -12,6 +19,7 @@ const messages = {
           pt: 'Português',
           en: 'English',
         },
+        signOut: 'Sign out',
       },
       searchBar: 'Search movies',
       synopsis: 'Synopsis',

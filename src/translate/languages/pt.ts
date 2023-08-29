@@ -1,6 +1,13 @@
 const messages = {
   pt: {
     translations: {
+      signIn: {
+        username: 'Nome de usuário',
+        password: 'Senha',
+        signIn: 'Entrar',
+        error: 'Erro ao entrar',
+        required: 'Campo obrigatório',
+      },
       tabNavigation: {
         home: 'Início',
         favorites: 'Favoritos',
@@ -12,6 +19,7 @@ const messages = {
           pt: 'Português',
           en: 'English',
         },
+        signOut: 'Sair',
       },
       searchBar: 'Pesquisar filmes',
       synopsis: 'Sinopse',
