@@ -7,9 +7,11 @@ import { AuthContext } from '../../contexts/auth';
 import { IPageProps } from '../../types/navigation';
 
 import api from '../../services/api';
-import { GET_MOVIE_LIST, SEARCH_MOVIES } from '../../types/requests';
+import { discoverMovies, searchMovies } from '../../types/requests';
 
 import MovieCard from '../../components/MovieCard';
+
+import { useTranslation } from 'react-i18next';
 
 type FormData = {
   search: string;
@@ -21,13 +23,15 @@ export default function Home({ navigation }: IPageProps) {
   const [originalMovieList, setOriginalMovieList] = useState([]);
   const [movieList, setMovieList] = useState([]);
 
+  const { t } = useTranslation();
+
   const { control, formState, handleSubmit, clearErrors, setError } =
     useForm<FormData>({
       mode: 'onChange',
     });
 
   useEffect(() => {
-    api.get(`${GET_MOVIE_LIST}`).then((response) => {
+    api.get(`${discoverMovies()}`).then((response) => {
       setOriginalMovieList(response.data.results);
       setMovieList(response.data.results);
     });
@@ -37,7 +41,7 @@ export default function Home({ navigation }: IPageProps) {
     try {
       clearErrors();
       await api
-        .get(SEARCH_MOVIES(data.search), {
+        .get(searchMovies(data.search), {
           params: {
             query: data.search,
           },
@@ -59,7 +63,8 @@ export default function Home({ navigation }: IPageProps) {
         render={({ field, fieldState }) => (
           <>
             <Searchbar
-              placeholder="Buscar por filmes"
+              testID="searchBar"
+              placeholder={`${t('searchBar')}`}
               value={field.value}
               onChangeText={field.onChange}
               onSubmitEditing={handleSubmit(submit)}

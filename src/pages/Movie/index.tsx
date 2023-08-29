@@ -24,6 +24,8 @@ import {
 import tmdbLogo from '../../images/tmdb.png';
 import { styles } from './styles';
 
+import { useTranslation } from 'react-i18next';
+
 export default function Movie({ route }) {
   const { movieId } = route.params;
   const { user } = useContext(AuthContext);
@@ -35,6 +37,8 @@ export default function Movie({ route }) {
   const [movieAccountStates, setMovieAccountStates] =
     useState<MovieAccountStatesData>();
   const genreNames = movie.genres?.map((genre) => genre.name).join(', ');
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -134,20 +138,20 @@ export default function Movie({ route }) {
               />
             </View>
             <View>
-              <Text style={styles.subtitle}>Sinopse</Text>
+              <Text style={styles.subtitle}>{t('synopsis')}</Text>
               <Text>{movie.overview}</Text>
             </View>
             <View style={styles.movieContentWrapper}>
               <View>
-                <Text style={styles.subtitle}>Diretor</Text>
+                <Text style={styles.subtitle}>{t('director')}</Text>
                 <Text>{director[0]?.name}</Text>
               </View>
               <View>
-                <Text style={styles.subtitle}>Orçamento</Text>
+                <Text style={styles.subtitle}>{t('budget')}</Text>
                 <Text>US$ {movie.budget?.toLocaleString()}</Text>
               </View>
             </View>
-            <Text style={styles.subtitle}>Disponível em:</Text>
+            <Text style={styles.subtitle}>{t('availableIn')}</Text>
           </View>
           <ScrollView horizontal style={styles.providersWrapper}>
             {movieProviders.length !== 0 ? (
@@ -164,7 +168,7 @@ export default function Movie({ route }) {
                 );
               })
             ) : (
-              <Text>Não disponível</Text>
+              <Text>{t('notAvailable')}</Text>
             )}
           </ScrollView>
         </View>
