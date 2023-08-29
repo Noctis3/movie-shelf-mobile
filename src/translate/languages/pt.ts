@@ -12,6 +12,8 @@ const messages = {
           pt: 'Português',
           en: 'English',
         },
+        signOut: 'Sair',
+
       },
       searchBar: 'Pesquisar filmes',
       synopsis: 'Sinopse',

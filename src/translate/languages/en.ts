@@ -12,6 +12,7 @@ const messages = {
           pt: 'Português',
           en: 'English',
         },
+        signOut: 'Sign out',
       },
       searchBar: 'Search movies',
       synopsis: 'Synopsis',

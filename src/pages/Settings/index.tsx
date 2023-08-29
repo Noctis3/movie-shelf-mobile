@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text, Button } from 'react-native-paper';
 import { SegmentedButtons } from 'react-native-paper';
+import { Image } from 'react-native-expo-image-cache';
 
 import { IPageProps } from '../../types/navigation';
 import { AuthContext } from '../../contexts/auth';
@@ -15,15 +16,27 @@ export default function Home({ navigation }: IPageProps) {
 
   return (
     <View style={styles.container}>
-      <Button
-        mode="contained"
-        onPress={() => {
-          signOut();
-        }}
-      >
-        SignOut
-      </Button>
-      <Text>{t('settingsPage.selectLanguage.label')}</Text>
+      <View style={styles.userWrapper}>
+        <View style={styles.userIconWrapper}>
+          <Image
+            uri={`https://image.tmdb.org/t/p/original/${user.avatar.tmdb.avatar_path}`}
+            preview={{
+              uri: `https://image.tmdb.org/t/p/w200/${user.avatar.tmdb.avatar_path}`,
+            }}
+            style={styles.img}
+          />
+          <Text>{user.username}</Text>
+        </View>
+        <Button
+          mode="contained"
+          onPress={() => {
+            signOut();
+          }}
+        >
+          {t('settingsPage.signOut')}
+        </Button>
+      </View>
+      <Text style={styles.text}>{t('settingsPage.selectLanguage.label')}</Text>
       <SegmentedButtons
         value={i18n.language}
         onValueChange={(value) => {
@@ -47,8 +60,26 @@ export default function Home({ navigation }: IPageProps) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    marginTop: '10%',
+  },
+  userWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    width: '100%',
+  },
+  userIconWrapper: {
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  img: {
+    borderRadius: 100,
+    width: 70,
+    height: 70,
+    marginBottom: 10,
+  },
+  text: {
+    margin: 10,
+    fontSize: 20,
   },
 });
