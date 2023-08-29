@@ -6,13 +6,11 @@ import { useForm, Controller } from 'react-hook-form';
 import { AuthContext } from '../../contexts/auth';
 import { IPageProps } from '../../types/navigation';
 
+import { useTranslation } from 'react-i18next';
+
 type FormData = {
   username: string;
   password: string;
-};
-
-const ERROR_MESSAGES = {
-  REQUIRED: 'Esse campo é obrigatório',
 };
 
 export default function SignIn({ navigation }: IPageProps) {
@@ -21,14 +19,19 @@ export default function SignIn({ navigation }: IPageProps) {
       mode: 'onChange',
     });
   const { signIn } = useContext(AuthContext);
+  const { t } = useTranslation();
 
+  const ERROR_MESSAGES = {
+    REQUIRED: t('signIn.required'),
+  };
+  
   const submit = async (data: { username: string; password: string }) => {
     try {
       clearErrors();
       await signIn(data);
       navigation.navigate('HomeSection');
     } catch (error) {
-      setError('root', { type: 'manual', message: 'Erro ao autenticar' });
+      setError('root', { type: 'manual', message: t('signIn.error') });
     }
   };
 
@@ -46,7 +49,7 @@ export default function SignIn({ navigation }: IPageProps) {
             <TextInput
               testID="username"
               value={field.value}
-              label="Nome de usuário"
+              label={t('signIn.username')}
               style={styles.input}
               onBlur={field.onBlur}
               textContentType="emailAddress"
@@ -71,7 +74,7 @@ export default function SignIn({ navigation }: IPageProps) {
             <TextInput
               testID="password"
               value={field.value}
-              label="Senha"
+              label={t('signIn.password')}
               style={styles.input}
               onBlur={field.onBlur}
               secureTextEntry
@@ -92,7 +95,7 @@ export default function SignIn({ navigation }: IPageProps) {
           style={styles.button}
           loading={formState.isSubmitting}
         >
-          Entrar
+          {t('signIn.signIn')}
         </Button>
         {formState.errors.root && (
           <HelperText type="error">{formState.errors.root.message}</HelperText>
