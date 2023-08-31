@@ -6,11 +6,13 @@ import { useForm, Controller } from 'react-hook-form';
 import { AuthContext } from '../../contexts/auth';
 import { IPageProps } from '../../types/navigation';
 
-import { useTranslation } from 'react-i18next';
-
 type FormData = {
   username: string;
   password: string;
+};
+
+const ERROR_MESSAGES = {
+  REQUIRED: 'Esse campo é obrigatório',
 };
 
 export default function SignIn({ navigation }: IPageProps) {
@@ -19,19 +21,14 @@ export default function SignIn({ navigation }: IPageProps) {
       mode: 'onChange',
     });
   const { signIn } = useContext(AuthContext);
-  const { t, i18n } = useTranslation();
 
-  const ERROR_MESSAGES = {
-    REQUIRED: t('signIn.required'),
-  };
-  
   const submit = async (data: { username: string; password: string }) => {
     try {
       clearErrors();
       await signIn(data);
       navigation.navigate('HomeSection');
     } catch (error) {
-      setError('root', { type: 'manual', message: t('signIn.error') });
+      setError('root', { type: 'manual', message: 'Erro ao autenticar' });
     }
   };
 
@@ -49,7 +46,7 @@ export default function SignIn({ navigation }: IPageProps) {
             <TextInput
               testID="username"
               value={field.value}
-              label={t('signIn.username')}
+              label="Nome de usuário"
               style={styles.input}
               onBlur={field.onBlur}
               textContentType="emailAddress"
@@ -74,13 +71,13 @@ export default function SignIn({ navigation }: IPageProps) {
             <TextInput
               testID="password"
               value={field.value}
-              label={t('signIn.password')}
+              label="Senha"
               style={styles.input}
               onBlur={field.onBlur}
               secureTextEntry
               textContentType="password"
               onChangeText={field.onChange}
-              autoCapitalize='none'
+              autoCapitalize="none"
             />
             {fieldState.error && (
               <HelperText type="error">{fieldState.error.message}</HelperText>
@@ -96,7 +93,7 @@ export default function SignIn({ navigation }: IPageProps) {
           style={styles.button}
           loading={formState.isSubmitting}
         >
-          {t('signIn.signIn')}
+          Entrar
         </Button>
         {formState.errors.root && (
           <HelperText type="error">{formState.errors.root.message}</HelperText>

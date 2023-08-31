@@ -1,13 +1,6 @@
 const messages = {
   en: {
     translations: {
-      signIn: {
-        username: 'Username',
-        password: 'Password',
-        signIn: 'Sign in',
-        error: 'Invalid username or password',
-        required: 'Required field',
-      },
       tabNavigation: {
         home: 'Home',
         favorites: 'Favorites',
